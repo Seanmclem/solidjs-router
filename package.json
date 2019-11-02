@@ -1,0 +1,22 @@
+{
+  "name": "solidjsrouter",
+  "version": "0.0.12",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Seanmclem/solidjs-router.git"
+  },
+  "author": "seanmclem",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Seanmclem/solidjs-router/issues"
+  },
+  "homepage": "https://github.com/Seanmclem/solidjs-router#readme",
+  "dependencies": {
+    "solid-js": "^0.13.0"
+  }
+}
