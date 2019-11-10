@@ -8,10 +8,16 @@ const navigate = (e, path, setRoute) => {
     setRoute(path);
 }
 
-export const RouterLink = (props) => {
+export const RouterLink = ({ activeClass, path, children }) => {
     const [state, { setRoute }] = useContext(RouterContext);
 
     return (
-        <a href={props.path} onClick={(e) => navigate(e, props.path, setRoute)}>{props.children}</a>
+        <a
+            className={path === state.currentRoute ? activeClass : ''}
+            href={path}
+            onClick={(e) => navigate(e, path, setRoute)}
+        >
+            {children}
+        </a>
     )
 }

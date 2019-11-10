@@ -18,7 +18,7 @@ export default {
     external: ['solid-js', 'solid-js/dom'],
     input: 'src/index.jsx',
     output: {
-        file: 'dist/index.js',
+        file: 'index.js',
         format: 'es'
     },
     plugins
