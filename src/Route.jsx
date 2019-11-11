@@ -4,9 +4,12 @@ import { RouterContext } from "./RouterContext";
 // updating on prop change
 // https://github.com/ryansolid/solid/blob/master/documentation/components.md#components
 
-const getRouteParam = path => {
-    const result = !path || (path && !path.includes(':')) ? '' : path.split(':')[1]
-    return { routeParam: result }
+const getRouteParam = (name, path) => {
+    const paramName = !name || (name && !name.includes(':')) ? '' : name.split(':')[1]
+    const pathVal = !name || (name && !name.includes(':')) ? '' : name.split(':')[0]
+    const pathParam = !path || (path && !path.includes(pathVal)) ? '' : path.split(pathVal)[1]
+
+    return { routeParam: { [paramName]: pathParam } }
 }
 
 const getQueryParams = path => {
@@ -26,15 +29,18 @@ export const Route = ({ path, component, exact }) => {
     const [state, setState] = createState({ showPath: false, routeParam: '', queryParams: null });
     const TheComponent = component;
 
-    createEffect(() => setState({
-        showPath: exact ?
-            path === context.currentRoute :
-            context.currentRoute && context.currentRoute.startsWith(path)
-    }));
+    createEffect(() => {
+        const matchPath = path.split(':')[0];
+        setState({
+            showPath: exact ?
+                matchPath === context.currentRoute :
+                context.currentRoute && context.currentRoute.startsWith(matchPath)
+        })
+    });
 
     createEffect(() => {
         if (state.showPath) {
-            setState(getRouteParam(path));
+            setState(getRouteParam(path, context.currentRoute));
             setState(getQueryParams(context.currentRoute));
         }
     });
@@ -42,7 +48,7 @@ export const Route = ({ path, component, exact }) => {
     return (
         <Show when={state.showPath}>
             <TheComponent
-                routeParams={state.routeParam}
+                routeParam={state.routeParam}
                 queryParams={state.queryParams}
             />
         </Show>
