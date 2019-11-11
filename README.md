@@ -1,7 +1,7 @@
 
 # SolidJs Router
 
-Desc
+This is a simple SPA router for SolidJS that uses plain URLs and not #hash-urls. Although, it has no shared code with React-Router -it is partially based on the basic syntax of it. 
 
 ## Installation
 
