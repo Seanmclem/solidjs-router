@@ -6,45 +6,44 @@ import { RouterContext } from "./RouterContext";
 
 const getRouteParam = path => {
     const result = !path || (path && !path.includes(':')) ? '' : path.split(':')[1]
-    return { value: result }
+    return { routeParam: result }
 }
 
 const getQueryParams = path => {
     if (!path || (path && !path.includes('?'))) {
         return { value: null };
     }
+
     const paramsStringsArray = path.split('?');
     const paramsArray = paramsStringsArray[1].split('&');
     const paramsObjectsArray = paramsArray.map(param => [param.split('=')[0], param.split('=')[1]]);
-    return Object.fromEntries(paramsObjectsArray);
+
+    return { queryParams: Object.fromEntries(paramsObjectsArray) };
 }
 
 export const Route = ({ path, component, exact }) => {
-
-    const [state] = useContext(RouterContext);
-    const [showRoute, setShowRoute] = createState({ showPath: false });
-    const [routeParam, setRouteParam] = createState({ value: '' });
-    const [queryParams, setQueryParams] = createState({ value: null });
+    const [context] = useContext(RouterContext);
+    const [state, setState] = createState({ showPath: false, routeParam: '', queryParams: null });
     const TheComponent = component;
 
-    createEffect(() => setShowRoute({
+    createEffect(() => setState({
         showPath: exact ?
-            path === state.currentRoute :
-            state.currentRoute && path.startsWith(state.currentRoute)
+            path === context.currentRoute :
+            context.currentRoute && context.currentRoute.startsWith(path)
     }));
 
     createEffect(() => {
-        if (showRoute.showPath) {
-            setRouteParam(getRouteParam(path));
-            setQueryParams(getQueryParams(path));
+        if (state.showPath) {
+            setState(getRouteParam(path));
+            setState(getQueryParams(context.currentRoute));
         }
     });
 
     return (
-        <Show when={showRoute.showPath}>
+        <Show when={state.showPath}>
             <TheComponent
-                routeParams={routeParam.value}
-                queryParams={queryParams.value}
+                routeParams={state.routeParam}
+                queryParams={state.queryParams}
             />
         </Show>
     )
