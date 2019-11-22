@@ -180,6 +180,6 @@ Feel free to fork, make edits, submit pull requests, or create issues.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/Seanmclem/solidjs-router/blob/master/LICENSE) file for details
 
 
