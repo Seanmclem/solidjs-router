@@ -75,7 +75,7 @@ The inner contents of the RouterLink tag will be passed into the inner content o
 To render the presence of a certain css class in the case of a path-match, use the 'activeClass' prop to indicate this class.
 
 ## Query String parameters
-Query String parameters are automatically extracted from the url and added to the resulting component as a `queryParams` prop. Example:
+Query String parameters are automatically extracted from the path prop of a `<RouterLink>` and added to the resulting component as a `queryParams` prop. Example:
 
 ```javascript
 // Main.jsx
@@ -125,10 +125,10 @@ const Navigation = () => (
 
 A value is provided for the route-param in a `<RouterLink>` path prop. The route-param value is used in place of the name. The examples above provide the BlogDetail component with `detail_path='fancy-blogpost-1'` and `detail_path='my-blogpost-two'` respectively.
 
-The route-param become available to the designated component, BlogDetail in this example, as a prop called `routeParam`.
+The route-param becomes available to the designated component, BlogDetail in this example, as a prop called `routeParam`.
 ```javascript
 const BlogDetail = (props) => {
-    const detailPath = props.routeParam.detail_path;
+    console.log(props.routeParam.detail_path); // 'fancy-blogpost-1' or 'my-blogpost-two'
 
     return (
         <>
@@ -139,7 +139,7 @@ const BlogDetail = (props) => {
 ```
 
 ## Nested Routes
-any If you need to have several routes with the same beginning - you can use 'exact' for any generic route, and leave it off for the rest.
+If you need to have several routes with the same beginning - you can use 'exact' for any generic route, and leave it off for the rest.
 
 Like this:
 ```javascript
