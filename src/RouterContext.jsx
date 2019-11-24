@@ -10,15 +10,30 @@ export function RouterProvider(props) {
         return route;
     };
 
-    const [state, setState] = createState({ currentRoute: getCurrentRoute() });
-    const store = [
-        state,
-        {
-            setRoute(path) {
-                setState({ currentRoute: path });
-            }
-        }
-    ];
+    const adjustPath = (path) => {
+        path = path.indexOf('/') === 0 ? path.replace('/', '') : path;
+        console.log(path);
+        path = path.split(':')[0];
+        return path;
+    }
+
+    const navigate = (path, e) => {
+        if (e) { e.preventDefault(); }
+        path = adjustPath(path);
+        window.history.pushState("", "", `/${path}`);
+        setContextState({ currentRoute: path })
+    }
+
+    const [contextState, setContextState] = createState({ currentRoute: getCurrentRoute() });
+
+    const store =
+    {
+        contextState,
+        setRoute(path) {
+            navigate(path);
+        },
+        navigate
+    };
 
     return (
         <RouterContext.Provider value={store}>

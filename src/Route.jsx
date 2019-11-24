@@ -25,23 +25,25 @@ const getQueryParams = path => {
 }
 
 export const Route = ({ path, component, exact }) => {
-    const [context] = useContext(RouterContext);
+    const { contextState } = useContext(RouterContext);
     const [state, setState] = createState({ showPath: false, routeParam: '', queryParams: null });
     const TheComponent = component;
 
     createEffect(() => {
         const matchPath = path.split(':')[0];
+        const showPath = exact ?
+            matchPath === contextState.currentRoute :
+            contextState.currentRoute && contextState.currentRoute.startsWith(matchPath)
         setState({
-            showPath: exact ?
-                matchPath === context.currentRoute :
-                context.currentRoute && context.currentRoute.startsWith(matchPath)
+            showPath: showPath
         })
+
     });
 
     createEffect(() => {
         if (state.showPath) {
-            setState(getRouteParam(path, context.currentRoute));
-            setState(getQueryParams(context.currentRoute));
+            setState(getRouteParam(path, contextState.currentRoute));
+            setState(getQueryParams(contextState.currentRoute));
         }
     });
 

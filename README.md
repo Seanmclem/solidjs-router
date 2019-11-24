@@ -170,6 +170,28 @@ const Blog = () => (
 );
 ```
 
+## Programmatic Routing Navigation
+You can manually trigger a router navigation. First, make sure you have RouterContext imported, then get setRoute via useContext, which you'll also need imported. From there you can call setRoute() and pass in the route you'd like to navigate to.
+
+```javascript
+import { useContext } from "solid-js";
+import { RouterContext } from "solidjsrouter";
+
+const Home = () => {
+    const { setRoute } = useContext(RouterContext);
+
+    const handleClick = () => {
+        setRoute('/blog');
+    }
+
+    return (
+        <>
+            <button onClick={() => handleClick()}>Navigate</button>
+        </>
+    )
+};
+```
+setRoute also accepts a second argument, an event, in case you need to preventDefault on one. This allows you to implement your own custom anchor tags without using RouterLink. Like `<a onClick={(e) => setRoute('/blog', e)}>Link Text</a>`
 
 
 ## Contributing
